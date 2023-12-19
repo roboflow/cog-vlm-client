@@ -45,3 +45,9 @@ model.
 specified.
 - `--api_key` (optional): The Roboflow API key used for authentication with the API. If 
 not provided, the script will look for the `ROBOFLOW_API_KEY` environment variable.
+
+## ⚙️ run example
+
+```bash
+python script.py --image "data/tire.jpg" --prompt "read serial number from tire"
+```
