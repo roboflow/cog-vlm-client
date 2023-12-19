@@ -29,22 +29,32 @@ def parse_arguments():
     parser.add_argument(
         "--image",
         required=True,
-        help="Path to the image file")
+        help="Specifies the path to the image file that will be sent to the inference "
+             "server."
+    )
     parser.add_argument(
         "--prompt",
         required=True,
-        help="Prompt to be sent along with the image")
+        help="The prompt text that accompanies the image in the request to the CogVLM "
+             "model."
+    )
     parser.add_argument(
         "--port",
         type=int,
         default=9001,
-        help="Port of the API")
+        help="Optional. The port number of the API."
+    )
     parser.add_argument(
         "--address",
         default="http://localhost",
-        help="Address of the API")
+        help="Optional. The address of the API."
+    )
     parser.add_argument(
-        "--api_key", help="Roboflow API key")
+        "--api_key",
+        help="Optional. The Roboflow API Key for authentication with the API. If not "
+             "provided, the script looks for the 'ROBOFLOW_API_KEY' environment "
+             "variable."
+    )
     return parser.parse_args()
 
 
