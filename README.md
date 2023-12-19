@@ -27,6 +27,12 @@ This script is designed to send an image and a prompt to
     ```bash
     pip install -r requirements.txt
     ```
+  
+- download example image
+
+  ```python
+  ./setup.sh
+  ```
 
 ## 🛠️ script arguments
 
