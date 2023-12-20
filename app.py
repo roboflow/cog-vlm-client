@@ -11,6 +11,8 @@ PORT = 9001
 ADDRESS = "http://localhost"
 ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY")
 
+TITLE = """<h1 align="center">CogVLM with Inference Server 💬</h1>"""
+
 
 def encode_base64_pillow(image: Image) -> str:
     buffer = io.BytesIO()
@@ -31,14 +33,10 @@ def compose_payload(image: Image, prompt: str, api_key: str) -> Dict:
     }
 
 
-image_component = gr.Image(type="pil", scale=1, height=400)
-chatbot_component = gr.Chatbot(
-    bubble_full_width=False,
-    scale=2,
-    height=400
-)
-text_prompt_component = gr.Textbox(label="Text Prompt", scale=7)
-submit_button_component = gr.Button(value="Submit", scale=1)
+image_component = gr.Image(type="pil", scale=1)
+chatbot_component = gr.Chatbot(bubble_full_width=False, scale=2)
+text_prompt_component = gr.Textbox(label="Text Prompt")
+submit_button_component = gr.Button(value="Submit")
 
 
 def on_submit(
@@ -55,6 +53,7 @@ def on_submit(
 
 
 with gr.Blocks() as demo:
+    gr.HTML(TITLE)
     with gr.Row():
         image_component.render()
         chatbot_component.render()
@@ -63,13 +62,13 @@ with gr.Blocks() as demo:
 
     submit_button_component.click(
         fn=on_submit,
-        inputs=[image_component, text_prompt_component],
+        inputs=[image_component, text_prompt_component, chatbot_component],
         outputs=[text_prompt_component, chatbot_component],
         queue=False
     )
     text_prompt_component.submit(
         fn=on_submit,
-        inputs=[image_component, text_prompt_component],
+        inputs=[image_component, text_prompt_component, chatbot_component],
         outputs=[text_prompt_component, chatbot_component],
         queue=False
     )
