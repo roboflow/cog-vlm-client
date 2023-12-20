@@ -33,8 +33,8 @@ def compose_payload(image: Image, prompt: str, api_key: str) -> Dict:
     }
 
 
-image_component = gr.Image(type="pil", scale=1)
-chatbot_component = gr.Chatbot(bubble_full_width=False, scale=2)
+image_component = gr.Image(type="pil", height=512)
+chatbot_component = gr.Chatbot(bubble_full_width=False, height=512)
 text_prompt_component = gr.Textbox(label="Text Prompt")
 submit_button_component = gr.Button(value="Submit")
 
