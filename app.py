@@ -2,7 +2,7 @@ import base64
 import requests
 import io
 import os
-from typing import Dict
+from typing import Dict, List, Tuple
 
 import gradio as gr
 from PIL import Image
@@ -41,13 +41,17 @@ text_prompt_component = gr.Textbox(label="Text Prompt", scale=7)
 submit_button_component = gr.Button(value="Submit", scale=1)
 
 
-def on_submit(image: Image, text_prompt: str):
+def on_submit(
+    image: Image, text_prompt: str, chatbot: List[Tuple[str, str]]
+) -> Tuple[str, List[Tuple[str, str]]]:
     payload = compose_payload(image, text_prompt, ROBOFLOW_API_KEY)
     results = requests.post(
         f"{ADDRESS}:{PORT}/llm/cogvlm",
         json=payload,
     )
-    print(results.json()["response"])
+    response = results.json()["response"]
+    chatbot.append((text_prompt, response))
+    return "", chatbot
 
 
 with gr.Blocks() as demo:
@@ -60,7 +64,13 @@ with gr.Blocks() as demo:
     submit_button_component.click(
         fn=on_submit,
         inputs=[image_component, text_prompt_component],
-        outputs=[],
+        outputs=[text_prompt_component, chatbot_component],
+        queue=False
+    )
+    text_prompt_component.submit(
+        fn=on_submit,
+        inputs=[image_component, text_prompt_component],
+        outputs=[text_prompt_component, chatbot_component],
         queue=False
     )
 
